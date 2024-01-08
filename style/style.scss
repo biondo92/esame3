@@ -311,6 +311,25 @@ footer {
     }
 }
 
+#categories {
+    position: relative;
+    height: calc(100vh - 133px);
+    margin-top: 58px;
+
+    .wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100%;
+
+    }
+}
+
 li.active a {
     font-size: 22px;
     text-decoration: underline;
