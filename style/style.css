@@ -1,0 +1,274 @@
+body {
+    font-family: "Oswald", sans-serif;
+    margin: 0;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100000000;
+    background: #fff;
+}
+
+.main-navbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-height: 58px;
+}
+.main-navbar .logo {
+    max-width: 40px;
+}
+.main-navbar .navbar {
+    margin-left: auto;
+    margin-right: 20px;
+    list-style: none;
+}
+.main-navbar .navbar li {
+    display: inline;
+    padding: 5px;
+}
+.main-navbar .navbar li a {
+    text-decoration: none;
+    font-size: 18px;
+    color: gray;
+}
+.main-navbar .navbar li a:hover {
+    font-size: 22px;
+    text-decoration: underline;
+}
+
+#home {
+    position: relative;
+    height: calc(100vh - 58px);
+    background: url(https://picsum.photos/id/668/2000/1500) center;
+    margin-top: 58px;
+}
+#home .wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#home .title,
+#home .subtitle {
+    color: #fff;
+}
+#home .title {
+    margin-top: 10%;
+    font-size: 72px;
+}
+
+#about {
+    position: relative;
+    height: 100vh;
+    background: #000;
+}
+#about .wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    padding-top: 5%;
+    flex-direction: column;
+}
+#about .story {
+    display: flex;
+    flex-direction: row;
+}
+#about .story .text {
+    display: flex;
+    flex-direction: column;
+    padding-right: 40px;
+    color: #fff;
+}
+#about .story .right {
+    margin-left: auto;
+}
+#about .numbers {
+    background: url(https://picsum.photos/id/855/2000/1500) right bottom;
+    display: flex;
+    flex-direction: column;
+    min-height: 370px;
+}
+#about .numbers h1 {
+    margin-left: auto;
+    margin-right: auto;
+}
+#about .blocks {
+    display: flex;
+    flex-direction: row;
+}
+#about .blocks .block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex-grow: 1;
+}
+#about .blocks .block strong {
+    font-size: 84px;
+}
+
+blockquote {
+    border-left: 0.7rem solid #edb500;
+    border-left-color: #edb500;
+    margin: 1.5em 0.7rem;
+    padding: 0.5em 0.7rem;
+}
+
+#portfolio {
+    position: relative;
+    height: 100vh;
+    background: black;
+    color: #fff;
+}
+#portfolio .wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#portfolio .wrapper .portfolio-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+#portfolio .wrapper .portfolio-row .portfolio-item {
+    flex-grow: 1;
+    border: 1px solid white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    margin: 2%;
+}
+#portfolio .wrapper .portfolio-row .portfolio-item .project-title {
+    margin-top: 1%;
+}
+#portfolio .wrapper .portfolio-row .portfolio-item img {
+    width: 100%;
+}
+
+#contact {
+    position: relative;
+    height: calc(100vh - 75px);
+    background: url(https://picsum.photos/id/1/2000/1500?grayscale) center;
+}
+#contact .wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 3%;
+}
+#contact .contact-form {
+    width: 40%;
+    margin-left: auto;
+    margin-right: 5%;
+}
+#contact .contact-form .form-input {
+    text-align: right;
+}
+#contact .contact-form .form-input button {
+    font-size: 1.3em;
+    background: #edb500;
+    color: #fff;
+    border: none;
+    margin-top: 25px;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+#contact .contact-form .form-input button:hover {
+    background: #fff;
+    color: #edb500;
+    border: none;
+}
+#contact .contact-form .form-input input,
+#contact .contact-form .form-input textarea {
+    width: 100%;
+    font-size: 1.6em;
+}
+#contact .contact-form .form-input label {
+    float: left;
+    font-size: 2em;
+    font-weight: bolder;
+}
+
+footer {
+    background: #000;
+    color: #FFF;
+}
+footer a {
+    color: #edb500;
+}
+footer a:hover {
+    font-weight: bolder;
+}
+footer .social:hover {
+    font-size: 1.2em;
+}
+footer .wrapper {
+    display: flex;
+    padding: 0 15px;
+    align-items: center;
+    justify-content: center;
+}
+footer .wrapper .text {
+    display: inline;
+}
+footer ul {
+    margin-left: auto;
+    list-style: none;
+    display: inline-flex;
+}
+footer ul li {
+    padding: 5px;
+}
+
+#login {
+    position: relative;
+    height: calc(100vh - 133px);
+    margin-top: 58px;
+}
+#login .wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+}
+#login .wrapper form {
+    width: 40%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+li.active a {
+    font-size: 22px;
+    text-decoration: underline;
+}

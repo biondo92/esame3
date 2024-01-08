@@ -1,0 +1,54 @@
+{
+    "projects": [
+        {
+            "image": "https://picsum.photos/id/5/1000/750",
+            "title": "Project 1"
+        },
+        {
+            "image": "https://picsum.photos/id/7/1000/750",
+            "title": "Project 2"
+        },
+        {
+            "image": "https://picsum.photos/id/13/1000/750",
+            "title": "Project 3"
+        },
+        {
+            "image": "https://picsum.photos/id/11/1000/750",
+            "title": "Project 4"
+        },
+        {
+            "image": "https://picsum.photos/id/600/1000/750",
+            "title": "Project 5"
+        },
+        {
+            "image": "https://picsum.photos/id/54/1000/750",
+            "title": "Project 6"
+        },
+        {
+            "image": "https://picsum.photos/id/89/1000/750",
+            "title": "Project 7"
+        },
+        {
+            "image": "https://picsum.photos/id/23/1000/750",
+            "title": "Project 8"
+        }
+    ],
+    "statistics": [
+        {
+            "value": "82",
+            "title": "Clienti Soddisfatti"
+        },
+        {
+            "value": "+70",
+            "title": "Progetti Ultimati"
+        },
+        {
+            "value": "+20",
+            "title": "Anni di Esperienza"
+        },
+        {
+            "value": "7",
+            "title": "Sedi in Italia"
+        }
+    ]
+}
