@@ -27,13 +27,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$categories = $db->query("SELECT * FROM category");
+$users = $db->query("SELECT * FROM users");
 ?>
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>CATEGORIE | AEZMA</title>
+    <title>UTENTI | AEZMA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet">
@@ -53,42 +53,42 @@ $categories = $db->query("SELECT * FROM category");
             <ul class="navbar">
                 <li><a href="dashboard.php">Dashboard</a></li>
                 <li><a href="projects.php">Progetti</a></li>
-                <li class="active"><a href="categories.php">Categorie</a></li>
-                <li><a href="users.php">Utenti</a></li>
+                <li><a href="categories.php">Categorie</a></li>
+                <li class="active"><a href="users.php">Utenti</a></li>
                 <li><a href="index.php">Vai al sito</a></li>
             </ul>
         </nav>
     </header>
 
-    <section id="categories">
+    <section id="users">
         <div class="wrapper">
-            <h2>Categorie</h2>
+            <h2>Utenti</h2>
             <div id="controls">
-                <button class="tooltip" data-tooltip="Aggiungi Categoria" onclick="openForm(0)">
+                <button class="tooltip" data-tooltip="Aggiungi Utente" onclick="openForm(0)">
                     <i class="fas fa-plus fa-2x"></i>
                 </button>
             </div>
-            <table id="categories-tab">
+            <table id="users-tab">
                 <thead>
                     <tr>
                         <th width="5%"># ID</th>
-                        <th width="85%">Nome</th>
+                        <th width="85%">Email</th>
                         <th width="10%"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if ($categories != null && $categories->num_rows > 0) {
-                        foreach ($categories as $cat) { ?>
+                    <?php if ($users != null && $users->num_rows > 0) {
+                        foreach ($users as $us) { ?>
                             <tr>
-                                <td><?php echo $cat["id"] ?></td>
-                                <td><?php echo $cat["name"] ?></td>
+                                <td><?php echo $us["id"] ?></td>
+                                <td><?php echo $us["email"] ?></td>
                                 <td>
-                                    <button class="tooltip" data-tooltip="Modifica Categoria" onclick="openForm(<?php echo $cat['id'] ?>,'<?php echo $cat['name'] ?>')">
+                                    <button class="tooltip" data-tooltip="Modifica Utente" onclick="openForm(<?php echo $us['id'] ?>,'<?php echo $us['email'] ?>','<?php echo $us['pass'] ?>')">
                                         <i class="fas fa-pencil fa-2x"></i>
                                     </button>
-                                    <form action="categories.php?action=delete" method="post">
-                                        <input type="hidden" name="id" value="<?php echo $cat['id'] ?>">
-                                        <button type="submit" class="tooltip" data-tooltip="Elimina Categoria">
+                                    <form action="users.php?action=delete" method="post">
+                                        <input type="hidden" name="id" value="<?php echo $us['id'] ?>">
+                                        <button type="submit" class="tooltip" data-tooltip="Elimina Utente">
                                             <i class="fas fa-trash fa-2x"></i>
                                         </button>
                                     </form>
@@ -106,7 +106,7 @@ $categories = $db->query("SELECT * FROM category");
                 <tfoot>
                     <tr>
                         <th># ID</th>
-                        <th>Nome</th>
+                        <th>Email</th>
                         <th></th>
                     </tr>
                 </tfoot>
