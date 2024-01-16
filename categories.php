@@ -1,16 +1,30 @@
 <?php
 require 'app.php';
-$jsonString = file_get_contents("data.json");
-$jsonData = json_decode($jsonString, true);
-
-$email_inviata = false;
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["email"];
-    $messaggio = $_POST["messaggio"];
-    $email_inviata = true;
+    $action = "";
+
+    if(isset( $_GET["action"])){
+        $action =  $_GET["action"];
+    }
+
+    if(!empty($action)){
+        if($action == "add"){
+            $catName = $_POST['name'];
+            $db->query("INSERT INTO category (name) VALUES ('$catName')");
+        }
+        else if($action == "delete"){
+            $catId = $_POST['id'];
+            $db->query("DELETE FROM category WHERE id = '$catId'");
+        }
+        else if($action == "edit"){
+            $catId = $_POST['id'];
+            $catName = $_POST['name'];
+            $db->query("UPDATE category SET name = '$catName' WHERE id = $catId");
+        }
+    }
 }
+
 $categories = $db->query("SELECT * FROM category");
 ?>
 <!DOCTYPE html>
@@ -21,7 +35,9 @@ $categories = $db->query("SELECT * FROM category");
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style/style.css">
 </head>
 
@@ -44,18 +60,20 @@ $categories = $db->query("SELECT * FROM category");
         </nav>
     </header>
 
-
     <section id="categories">
         <div class="wrapper">
+            <h2>Categorie</h2>
             <div id="controls">
-
+                <button class="tooltip" data-tooltip="Aggiungi Categoria" onclick="openForm(0)">
+                    <i class="fas fa-plus fa-2x"></i>
+                </button>
             </div>
             <table id="categories-tab">
                 <thead>
                     <tr>
-                        <th># ID</th>
-                        <th>Nome</th>
-                        <th></th>
+                        <th width="5%"># ID</th>
+                        <th width="85%">Nome</th>
+                        <th width="10%"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,19 +82,26 @@ $categories = $db->query("SELECT * FROM category");
                             <tr>
                                 <td><?php echo $cat["id"] ?></td>
                                 <td><?php echo $cat["name"] ?></td>
-                                <td><?php echo $cat["id"] ?></td>
+                                <td>
+                                    <button class="tooltip" data-tooltip="Modifica Categoria" onclick="openForm(<?php echo $cat['id'] ?>)">
+                                        <i class="fas fa-pencil fa-2x"></i>
+                                    </button>
+                                    <form action="categories.php?action=delete" method="post">
+                                        <input type="hidden" name="id" value="<?php echo $cat['id'] ?>">
+                                        <button type="submit" class="tooltip" data-tooltip="Elimina Categoria">
+                                            <i class="fas fa-trash fa-2x"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
-
                         <?php } ?>
-
                     <?php  } else { ?>
                         <tr>
                             <td colspan="3">
                                 nessun dato presente nella tabella
                             </td>
                         </tr>
-                    <?php }
-                    ?>
+                    <?php } ?>
                 </tbody>
                 <tfoot>
                     <tr>
@@ -89,8 +114,6 @@ $categories = $db->query("SELECT * FROM category");
         </div>
     </section>
 
-
-
     <footer>
         <div class="wrapper">
             <div class="text">
@@ -102,6 +125,61 @@ $categories = $db->query("SELECT * FROM category");
             </ul>
         </div>
     </footer>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="title"></h2>
+            <hr/>
+            <div class="wrapper">
+                <form class="category-form" method="post">
+                    <label for="name">Nome</label> <br>
+                    <input class="name" type="text" name="name" placeholder="nuova categoria" />
+                    <br>
+                    <button type="submit">Salva</button>
+                </form>
+            <div>
+        </div>
+
+    </div>
+
+    <script>
+        var modal = document.getElementById("myModal");
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        function openForm(id){
+            var form = modal.getElementsByClassName("category-form")[0];
+            var title = modal.getElementsByClassName("title")[0];
+            var catName = modal.getElementsByClassName("name")[0];
+
+            if(id == 0){
+                form.action = "categories.php?action=add";
+                title.innerHTML = "Aggiungi Categoria";
+            }
+            else{
+                form.action = "categories.php?action=edit&id=" + id;
+                title.innerHTML = "Modifica Categoria";
+            }                
+
+            modal.style.display = "block";
+        }
+
+    </script>
 </body>
 
 </html>
