@@ -11,15 +11,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($action)) {
         try {
             if ($action == "add") {
-                $catName = $_POST['name'];
-                $db->query("INSERT INTO category (name) VALUES ('$catName')");
+                $email = $_POST['email'];
+                $pass = $_POST['pass'];
+                $db->query("INSERT INTO users (email,pass) VALUES ('$email','$pass')");
             } else if ($action == "delete") {
-                $catId = $_POST['id'];
-                $db->query("DELETE FROM category WHERE id = $catId");
+                $userId = $_POST['id'];
+                $db->query("DELETE FROM users WHERE id = $userId");
             } else if ($action == "edit") {
-                $catId = $_POST['id'];
-                $catName = $_POST['name'];
-                $db->query("UPDATE category SET name = '$catName' WHERE id = $catId");
+                $userId = $_POST['id'];
+                $email = $_POST['email'];
+                $pass = $_POST['pass'];
+                $db->query("UPDATE users SET email = '$email' , pass='$pass' WHERE id = $userId");
             }
         } catch (Exception $e) {
             die($e);
@@ -134,10 +136,14 @@ $users = $db->query("SELECT * FROM users");
             <h2 class="title"></h2>
             <hr />
             <div class="wrapper">
-                <form class="category-form" method="post">
-                    <label for="name">Nome</label> <br>
-                    <input type="hidden" class="cat-id" name="id" value="">
-                    <input class="name" type="text" name="name" placeholder="nuova categoria" />
+                <form class="user-form" method="post">
+                    <label for="name">Email</label> <br>
+                    <input type="hidden" class="user-id" name="id" value="">
+                    <input class="email" type="text" name="email" placeholder="nuovo utente" />
+                    <br>
+                    <label for="pass">Password</label> <br>
+                    <input id="pass" type="password" class="pass" name="pass" value="">
+                    <button type="button" onclick="togglePass()"><i id="toggler" class="fa-solid fa-eye"></i></button>
                     <br>
                     <button type="submit">Salva</button>
                 </form>
@@ -163,23 +169,37 @@ $users = $db->query("SELECT * FROM users");
                     }
                 }
 
-                function openForm(id, Name) {
-                    var form = modal.getElementsByClassName("category-form")[0];
+                function openForm(id, Email, Pass) {
+                    var form = modal.getElementsByClassName("user-form")[0];
                     var title = modal.getElementsByClassName("title")[0];
-                    var catName = modal.getElementsByClassName("name")[0];
-                    var catId = modal.getElementsByClassName("cat-id")[0];
+                    var email = modal.getElementsByClassName("email")[0];
+                    var userId = modal.getElementsByClassName("user-id")[0];
+                    var pass = modal.getElementsByClassName("pass")[0];
 
                     if (id == 0) {
-                        form.action = "categories.php?action=add";
-                        title.innerHTML = "Aggiungi Categoria";
+                        form.action = "users.php?action=add";
+                        title.innerHTML = "Aggiungi Utente";
                     } else {
-                        catId.value = id;
-                        form.action = "categories.php?action=edit";
-                        catName.value = Name;
-                        title.innerHTML = "Modifica Categoria";
+                        userId.value = id;
+                        form.action = "users.php?action=edit";
+                        email.value = Email;
+                        title.innerHTML = "Modifica Utente";
+                        pass.value = Pass;
                     }
 
                     modal.style.display = "block";
+                }
+
+                function togglePass() {
+                    var toggler = document.getElementById("toggler");
+                    var input = document.getElementById("pass");
+                    if (toggler.className == "fa-solid fa-eye") {
+                        toggler.className = "fa-solid fa-eye-slash";
+                        input.type = "text";
+                    } else {
+                        toggler.className = "fa-solid fa-eye";
+                        input.type = "password";
+                    }
                 }
             </script>
 </body>

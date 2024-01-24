@@ -413,3 +413,7 @@ table tr:nth-child(even) td {
     text-decoration: none;
     cursor: pointer;
 }
+
+button:hover {
+    cursor: pointer;
+}
