@@ -21,7 +21,7 @@ const CREATE_TABLE_PROJECTS = "create table projects (
     name varchar(96) not null,
     description varchar(250),
     categoryId int not null,
-    image varchar(max),
+    image varchar(65535),
     primary key(id), 
     FOREIGN KEY (categoryId) REFERENCES category(id)
 )";
