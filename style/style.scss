@@ -312,7 +312,8 @@ footer {
 }
 
 #categories,
-#users {
+#users,
+#projects {
     position: relative;
     height: calc(100vh - 133px);
     margin-top: 58px;
@@ -474,4 +475,24 @@ table {
 
 button:hover {
     cursor: pointer;
+}
+
+#dashboard {
+    position: relative;
+    height: calc(100vh - 58px);
+
+    margin-top: 58px;
+
+    .wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+
 }

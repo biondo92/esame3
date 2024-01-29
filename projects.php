@@ -17,12 +17,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $desc = $_POST['desc'];
                 $db->query("INSERT INTO projects (name,categoryId,image,description) VALUES ('$Name',$catId,'$image','$desc')");
             } else if ($action == "delete") {
-                $catId = $_POST['id'];
-                $db->query("DELETE FROM category WHERE id = $catId");
+                $proId = $_POST['id'];
+                $db->query("DELETE FROM projects WHERE id = $proId");
             } else if ($action == "edit") {
-                $catId = $_POST['id'];
-                $catName = $_POST['name'];
-                $db->query("UPDATE category SET name = '$catName' WHERE id = $catId");
+                $Name = $_POST['name'];
+                $catId = $_POST['categoryId'];
+                $image = $_POST['image'];
+                $desc = $_POST['desc'];
+                $proId = $_POST['id'];
+                $db->query("UPDATE projects SET name = '$Name', categoryId= $catId, image='$image', description='$desc' WHERE id = $proId");
             }
         } catch (Exception $e) {
             die($e);
@@ -159,11 +162,13 @@ $categories = $db->query("SELECT * FROM category");
                     <br>
                     <label for="image">Immagine</label>
                     <br>
-                    <input class="image" name="image" type="text" placeholder="indirizzo web immagine">
+                    <input class="image" name="image" value="" type="text" placeholder="indirizzo web immagine">
                     <br>
                     <label for="desc">Descrizione</label>
                     <br>
-                    <textarea class="desc" name="desc" id="" rows="5" placeholder="descrivi il progetto"></textarea>
+                    <textarea class="desc" name="desc" id="" rows="5" placeholder="descrivi il progetto">
+
+                    </textarea>
                     <br>
                     <button type="submit">Salva</button>
                 </form>
@@ -202,10 +207,14 @@ $categories = $db->query("SELECT * FROM category");
                         form.action = "projects.php?action=add";
                         title.innerHTML = "Aggiungi Progetto";
                     } else {
-                        catId.value = id;
+                        proId.value = progetto.id;
                         form.action = "projects.php?action=edit";
-                        catName.value = Name;
+                        catName.value = progetto.name;
                         title.innerHTML = "Modifica Progetto";
+                        desc.innerHTML = progetto.description;
+                        image.value = progetto.image;
+                        catId.value = progetto.categoryId;
+
                     }
 
                     modal.style.display = "block";

@@ -11,6 +11,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $messaggio = $_POST["messaggio"];
     $email_inviata = true;
 }
+$projects = $db->query('select count(*) as qnt from projects');
+$categories = $db->query('select count(*) as qnt from category');
+$users = $db->query('select count(*) as qnt from users');
+$stat = array();
+foreach ($projects as $p) {
+    $stat['prog'] = $p['qnt'];
+}
+foreach ($categories as $p) {
+    $stat['cat'] = $p['qnt'];
+}
+foreach ($users as $p) {
+    $stat['users'] = $p['qnt'];
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,7 +57,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </nav>
     </header>
 
-
+    <section id="dashboard">
+        <div class="wrapper">
+            <h2>BENVENUTO</h2>
+            <div class="square">
+                <div class="stat">
+                    <h4>Progetti: <strong><?php echo $stat['prog'] ?></strong> </h4>
+                    <a href="projects.php">Gestisci</a>
+                </div>
+                <div class="stat">
+                    <h4>Categorie: <strong><?php echo $stat['cat'] ?></strong> </h4>
+                    <a href="categories.php">Gestisci</a>
+                </div>
+                <div class="stat">
+                    <h4>Utenti: <strong><?php echo $stat['users'] ?></strong> </h4>
+                    <a href="users.php">Gestisci</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
 

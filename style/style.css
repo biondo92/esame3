@@ -269,13 +269,15 @@ footer ul li {
 }
 
 #categories,
-#users {
+#users,
+#projects {
     position: relative;
     height: calc(100vh - 133px);
     margin-top: 58px;
 }
 #categories .wrapper,
-#users .wrapper {
+#users .wrapper,
+#projects .wrapper {
     position: absolute;
     top: 0;
     left: 0;
@@ -286,12 +288,14 @@ footer ul li {
     height: 100%;
 }
 #categories .wrapper #controls,
-#users .wrapper #controls {
+#users .wrapper #controls,
+#projects .wrapper #controls {
     width: 90%;
     margin-bottom: 10px;
 }
 #categories button:hover,
-#users button:hover {
+#users button:hover,
+#projects button:hover {
     cursor: pointer;
 }
 
@@ -416,4 +420,20 @@ table tr:nth-child(even) td {
 
 button:hover {
     cursor: pointer;
+}
+
+#dashboard {
+    position: relative;
+    height: calc(100vh - 58px);
+    margin-top: 58px;
+}
+#dashboard .wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
