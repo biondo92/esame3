@@ -437,3 +437,22 @@ button:hover {
     justify-content: center;
     flex-direction: column;
 }
+
+.square {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 5%;
+}
+.square .stat {
+    border: 1px solid black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+    padding: 5% 0;
+}
