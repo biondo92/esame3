@@ -3,14 +3,30 @@ require 'app.php';
 $jsonString = file_get_contents("data.json");
 $jsonData = json_decode($jsonString, true);
 
+
+
 $email_inviata = false;
-
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["email"];
-    $messaggio = $_POST["messaggio"];
+$result = "";
+$email = "";
+$email_error = false;
+$mex = "";
+$mex_error = false;
+if (isset($_GET["result"])) {
+    $result = $_GET["result"];
     $email_inviata = true;
+    if (!isset($_GET["email"])) {
+        $email_error = true;
+    } else {
+        $email = $_GET["email"];
+    }
+    if (!isset($_GET["messaggio"])) {
+        $mex_error = true;
+    } else {
+        $mex = $_GET["messaggio"];
+    }
 }
+
+$projects = $db->query("SELECT p.*,c.name AS category FROM projects AS p INNER JOIN category AS c ON p.categoryId=c.id");
 ?>
 <!DOCTYPE html>
 <html>
@@ -96,15 +112,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php
             $controllo = 0;
             ?>
-            <?php foreach ($jsonData['projects'] as $proj) { ?>
+            <?php foreach ($projects as $proj) { ?>
                 <?php if ($controllo == 0) { ?>
                     <div class="portfolio-row">
                     <?php }
                 $controllo++;
                     ?>
-                    <div class="portfolio-item">
-                        <img src="<?php echo $proj['image'] ?>" alt="<?php echo $proj['title'] ?>" />
-                        <div class="project-title"><?php echo $proj['title'] ?></div>
+                    <div class="portfolio-item" onclick='openModal(<?php echo json_encode($proj) ?>)'>
+                        <img src="<?php echo $proj['image'] ?>" alt="<?php echo $proj['name'] ?>" />
+                        <div class="project-title"><?php echo $proj['name'] ?></div>
                     </div>
                     <?php if ($controllo == 4) {
                         $controllo = 0;
@@ -118,21 +134,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <section id="contact">
         <div class="wrapper">
             <h1>Contattaci</h1>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="contact-form">
+            <form action="/esercitazioneJS-DB/send-email.php" method="post" class="contact-form">
                 <?php if ($email_inviata) { ?>
                     <div class="form-input">
-                        <strong>Messaggio inviato con successo!</strong>
+                        <strong class="validation-error"><?php echo $result ?></strong>
                     </div>
                 <?php } ?>
                 <div class="form-input">
                     <label for="email">Email</label>
                     <br>
-                    <input id="email" type="email" name="email" placeholder="email">
+                    <?php if ($email_error) { ?>
+
+                        <input class="invalid" value="<?php echo $email ?>" id="email" type="email" name="email" placeholder="email">
+                    <?php } else { ?>
+                        <input value="<?php echo $email ?>" id="email" type="email" name="email" placeholder="email">
+                    <?php } ?>
                 </div>
                 <div class="form-input">
                     <label for="message">Messaggio</label>
                     <br>
-                    <textarea id="message" name="messaggio" rows="10" placeholder="messaggio"></textarea>
+                    <?php if ($mex_error) { ?>
+                        <textarea class="invalid" id="message" name="message" rows="10" placeholder="messaggio"><?php echo trim($mex) ?></textarea>
+                    <?php } else { ?>
+                        <textarea id="message" name="message" rows="10" placeholder="messaggio"><?php echo trim($mex) ?></textarea>
+                    <?php } ?>
                 </div>
                 <div class="form-input">
                     <button type="submit">INVIA</button>
@@ -152,6 +177,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </ul>
         </div>
     </footer>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="title"></h2>
+            <hr />
+            <div class="wrapper">
+                <div class="left">
+                    <img class="prj-image" />
+                </div>
+                <div class="text">
+                    <h3>Descrizione:</h3>
+                    <p class="desc"></p>
+                </div>
+                <div>
+                </div>
+
+            </div>
+
+
+            <script>
+                var modal = document.getElementById("myModal");
+
+
+                function openModal(proj) {
+                    var desc = modal.getElementsByClassName("desc");
+                    var title = modal.getElementsByClassName("title");
+                    var img = modal.getElementsByClassName("prj-image");
+
+                    desc[0].innerHTML = proj.description;
+                    title[0].innerHTML = proj.name;
+                    img[0].src = proj.image;
+
+                    modal.style.display = "block";
+                }
+
+
+
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName("close")[0];
+
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            </script>
 </body>
 
 </html>
