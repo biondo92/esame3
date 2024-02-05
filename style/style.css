@@ -142,10 +142,9 @@ blockquote {
 #portfolio .wrapper .portfolio-row {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    width: 100%;
 }
 #portfolio .wrapper .portfolio-row .portfolio-item {
-    flex-grow: 1;
     border: 1px solid white;
     border-radius: 10px;
     display: flex;
@@ -154,6 +153,7 @@ blockquote {
     justify-content: center;
     padding: 10px;
     margin: 2%;
+    flex: 0 0 24em;
 }
 #portfolio .wrapper .portfolio-row .portfolio-item .project-title {
     margin-top: 1%;

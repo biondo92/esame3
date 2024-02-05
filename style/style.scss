@@ -162,10 +162,11 @@ blockquote {
             display: flex;
             flex-direction: row;
 
-            justify-content: space-around;
+            // justify-content: space-around;
+            width: 100%;
 
             .portfolio-item {
-                flex-grow: 1;
+                // flex-grow: 1;
                 border: 1px solid rgb(255, 255, 255);
                 border-radius: 10px;
                 display: flex;
@@ -174,6 +175,7 @@ blockquote {
                 justify-content: center;
                 padding: 10px;
                 margin: 2%;
+                flex: 0 0 24em;
 
                 .project-title {
                     margin-top: 1%;
