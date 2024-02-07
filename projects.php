@@ -33,8 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$projects = $db->query("SELECT p.*,c.name AS category FROM projects AS p INNER JOIN category AS c ON p.categoryId=c.id");
-$categories = $db->query("SELECT * FROM category");
+//$projects = $db->query("SELECT p.*,c.name AS category FROM projects AS p INNER JOIN category AS c ON p.categoryId=c.id");
+$projects = $app->GetProjectsPaginated(1, 5);
+var_dump($projects);
+die();
+$categories = $app->db->query("SELECT * FROM category");
 ?>
 <!DOCTYPE html>
 <html>
@@ -85,7 +88,7 @@ $categories = $db->query("SELECT * FROM category");
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if ($projects != null && $projects->num_rows > 0) {
+                    <?php if ($projects != null) {
                         foreach ($projects as $cat) { ?>
                             <tr>
                                 <td><?php echo $cat["id"] ?></td>
