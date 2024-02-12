@@ -519,17 +519,22 @@ button:hover {
     }
 }
 
-.pagination{
+.pagination {
     width: 90%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  ul li{
-    display:inline;
-    padding: 10px;
-    a{
-        font-size: 2em;
+    ul li {
+        display: inline;
+        padding: 10px;
+
+        a {
+            font-size: 2em;
+        }
     }
-  }
+
+    li.active {
+        border: 1px solid blue;
+    }
 }

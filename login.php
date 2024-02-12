@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST["pass"];
     }
     if (!empty($email) && !empty($password)) {
-        $risult = $db->query("select * from users where email = '$email' and pass = '$password'");
+        $risult = $app->db->query("select * from users where email = '$email' and pass = '$password'");
 
         if ($risult != null && $risult->num_rows > 0) {
             header('Location: ' . "/esercitazioneJS-DB/dashboard.php");

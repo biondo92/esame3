@@ -16,21 +16,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($action)) {
         try {
             if ($action == "add") {
-                $Name = $_POST['name'];
-                $catId = $_POST['categoryId'];
-                $image = $_POST['image'];
-                $desc = $_POST['desc'];
-                $db->query("INSERT INTO projects (name,categoryId,image,description) VALUES ('$Name',$catId,'$image','$desc')");
+
+                $app->AddProject($_POST['name'], $_POST['categoryId'], $_POST['image'], $_POST['desc']);
             } else if ($action == "delete") {
-                $proId = $_POST['id'];
-                $db->query("DELETE FROM projects WHERE id = $proId");
+
+                $app->DeleteProject($_POST['id']);
             } else if ($action == "edit") {
-                $Name = $_POST['name'];
-                $catId = $_POST['categoryId'];
-                $image = $_POST['image'];
-                $desc = $_POST['desc'];
-                $proId = $_POST['id'];
-                $db->query("UPDATE projects SET name = '$Name', categoryId= $catId, image='$image', description='$desc' WHERE id = $proId");
+
+                $app->UpdateProject($_POST['id'], $_POST['name'], $_POST['categoryId'], $_POST['image'], $_POST['desc']);
             }
         } catch (Exception $e) {
             die($e);
@@ -38,11 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-//$projects = $db->query("SELECT p.*,c.name AS category FROM projects AS p INNER JOIN category AS c ON p.categoryId=c.id");
-$projects = $app->GetProjectsPaginated($page, 2);
-// var_dump($projects);
-// die();
-$categories = $app->db->query("SELECT * FROM category");
+$projects = $app->GetProjectsPaginated($page, 5);
+
+$categories = $app->GetCategories();
 ?>
 <!DOCTYPE html>
 <html>
@@ -103,7 +94,7 @@ $categories = $app->db->query("SELECT * FROM category");
                                     <button class="tooltip" data-tooltip="Modifica Progetto" onclick='openForm(<?php echo json_encode($proj) ?>)'>
                                         <i class="fas fa-pencil fa-2x"></i>
                                     </button>
-                                    <form action="projects.php?action=delete" method="post">
+                                    <form action="projects.php?action=delete&page=<?php echo $page ?>" method="post">
                                         <input type="hidden" name="id" value="<?php echo $proj['id'] ?>">
                                         <button type="submit" class="tooltip" data-tooltip="Elimina Porgetto">
                                             <i class="fas fa-trash fa-2x"></i>
@@ -133,13 +124,15 @@ $categories = $app->db->query("SELECT * FROM category");
                 <div class="pagination">
                     <ul>
                         <?php if (intval($projects["page"]) > 1) { ?>
-                            <li><a href="/esame3-1/projects.php?page=1"><i class="fa-solid fa-backward"></i></a></li>
-                        <?php } 
-                            for($i = 1; $i <= intval($projects["totalPages"]); $i++){ ?>
-                                <li><a href="/esame3-1/projects.php?page=<?php echo $i ?>"><?php echo $i ?></a></li>
-                            <?php } ?>
+                            <li><a href="/esercitazioneJS-DB/projects.php?page=<?php echo (intval($projects["page"]) - 1) ?>"><i class="fa-solid fa-backward"></i></a></li>
+                        <?php }
+                        for ($i = 1; $i <= intval($projects["totalPages"]); $i++) { ?>
+                            <li class="<?php if ($page == $i) {
+                                            echo 'active';
+                                        } ?>"><a href="/esercitazioneJS-DB/projects.php?page=<?php echo $i ?>"><?php echo $i ?></a></li>
+                        <?php } ?>
                         <?php if (intval($projects["page"]) < intval($projects["totalPages"])) { ?>
-                            <li><a href="/esame3-1/projects.php?page=<?php echo (intval($projects["page"]) +1) ?>"><i class="fa-solid fa-forward"></i></a></li>
+                            <li><a href="/esercitazioneJS-DB/projects.php?page=<?php echo (intval($projects["page"]) + 1) ?>"><i class="fa-solid fa-forward"></i></a></li>
                         <?php } ?>
                     </ul>
                 </div>
@@ -227,11 +220,11 @@ $categories = $app->db->query("SELECT * FROM category");
                     var image = modal.getElementsByClassName("image")[0];
 
                     if (progetto.id == 0) {
-                        form.action = "projects.php?action=add";
+                        form.action = "projects.php?action=add&page=<?php echo $page ?>";
                         title.innerHTML = "Aggiungi Progetto";
                     } else {
                         proId.value = progetto.id;
-                        form.action = "projects.php?action=edit";
+                        form.action = "projects.php?action=edit&page=<?php echo $page ?>";
                         catName.value = progetto.name;
                         title.innerHTML = "Modifica Progetto";
                         desc.innerHTML = progetto.description;

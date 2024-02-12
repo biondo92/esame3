@@ -42,6 +42,25 @@ class App
         }
         return $result;
     }
+
+
+    public function AddProject($name, $catId, $image, $desc)
+    {
+        $this->db->query("INSERT INTO projects (name,categoryId,image,description) VALUES ('$name',$catId,'$image','$desc')");
+    }
+    public function DeleteProject($Id)
+    {
+        $this->db->query("DELETE FROM projects WHERE id = $Id");
+    }
+    public function UpdateProject($Id, $name, $catId, $image, $desc)
+    {
+        $this->db->query("UPDATE projects SET name = '$name', categoryId= $catId, image='$image', description='$desc' WHERE id = $Id");
+    }
+
+    public function GetCategories()
+    {
+        return  $this->db->query("SELECT * FROM category");
+    }
 }
 
 

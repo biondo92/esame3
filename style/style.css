@@ -470,3 +470,6 @@ button:hover {
 .pagination ul li a {
     font-size: 2em;
 }
+.pagination li.active {
+    border: 1px solid blue;
+}
