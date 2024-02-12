@@ -1,6 +1,11 @@
 <?php
 require 'app.php';
 
+$page = 1;
+if (isset($_GET["page"])) {
+    $page =  $_GET["page"];
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = "";
 
@@ -34,9 +39,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 //$projects = $db->query("SELECT p.*,c.name AS category FROM projects AS p INNER JOIN category AS c ON p.categoryId=c.id");
-$projects = $app->GetProjectsPaginated(1, 5);
-var_dump($projects);
-die();
+$projects = $app->GetProjectsPaginated($page, 2);
+// var_dump($projects);
+// die();
 $categories = $app->db->query("SELECT * FROM category");
 ?>
 <!DOCTYPE html>
@@ -89,17 +94,17 @@ $categories = $app->db->query("SELECT * FROM category");
                 </thead>
                 <tbody>
                     <?php if ($projects != null) {
-                        foreach ($projects as $cat) { ?>
+                        foreach ($projects["projects"] as $proj) { ?>
                             <tr>
-                                <td><?php echo $cat["id"] ?></td>
-                                <td><?php echo $cat["name"] ?></td>
-                                <td><?php echo $cat["category"] ?></td>
+                                <td><?php echo $proj["id"] ?></td>
+                                <td><?php echo $proj["name"] ?></td>
+                                <td><?php echo $proj["category"] ?></td>
                                 <td>
-                                    <button class="tooltip" data-tooltip="Modifica Progetto" onclick='openForm(<?php echo json_encode($cat) ?>)'>
+                                    <button class="tooltip" data-tooltip="Modifica Progetto" onclick='openForm(<?php echo json_encode($proj) ?>)'>
                                         <i class="fas fa-pencil fa-2x"></i>
                                     </button>
                                     <form action="projects.php?action=delete" method="post">
-                                        <input type="hidden" name="id" value="<?php echo $cat['id'] ?>">
+                                        <input type="hidden" name="id" value="<?php echo $proj['id'] ?>">
                                         <button type="submit" class="tooltip" data-tooltip="Elimina Porgetto">
                                             <i class="fas fa-trash fa-2x"></i>
                                         </button>
@@ -124,6 +129,21 @@ $categories = $app->db->query("SELECT * FROM category");
                     </tr>
                 </tfoot>
             </table>
+            <?php if ($projects["totalPages"] > 1) { ?>
+                <div class="pagination">
+                    <ul>
+                        <?php if (intval($projects["page"]) > 1) { ?>
+                            <li><a href="/esame3-1/projects.php?page=1"><i class="fa-solid fa-backward"></i></a></li>
+                        <?php } 
+                            for($i = 1; $i <= intval($projects["totalPages"]); $i++){ ?>
+                                <li><a href="/esame3-1/projects.php?page=<?php echo $i ?>"><?php echo $i ?></a></li>
+                            <?php } ?>
+                        <?php if (intval($projects["page"]) < intval($projects["totalPages"])) { ?>
+                            <li><a href="/esame3-1/projects.php?page=<?php echo (intval($projects["page"]) +1) ?>"><i class="fa-solid fa-forward"></i></a></li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            <?php } ?>
         </div>
     </section>
 
