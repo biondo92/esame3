@@ -11,9 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $messaggio = $_POST["messaggio"];
     $email_inviata = true;
 }
-$projects = $db->query('select count(*) as qnt from projects');
-$categories = $db->query('select count(*) as qnt from category');
-$users = $db->query('select count(*) as qnt from users');
+$projects = $app->db->query('select count(*) as qnt from projects');
+$categories =  $app->db->query('select count(*) as qnt from category');
+$users =  $app->db->query('select count(*) as qnt from users');
 $stat = array();
 foreach ($projects as $p) {
     $stat['prog'] = $p['qnt'];

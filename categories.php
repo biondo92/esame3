@@ -1,6 +1,11 @@
 <?php
 require 'app.php';
 
+$page = 1;
+if (isset($_GET["page"])) {
+    $page =  $_GET["page"];
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = "";
 
@@ -11,15 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($action)) {
         try {
             if ($action == "add") {
-                $catName = $_POST['name'];
-                $db->query("INSERT INTO category (name) VALUES ('$catName')");
+                $app->AddCategory($_POST['name']);
             } else if ($action == "delete") {
-                $catId = $_POST['id'];
-                $db->query("DELETE FROM category WHERE id = $catId");
+                $app->DeleteCategory($_POST['id']);
             } else if ($action == "edit") {
-                $catId = $_POST['id'];
-                $catName = $_POST['name'];
-                $db->query("UPDATE category SET name = '$catName' WHERE id = $catId");
+                $app->UpdateCategory($_POST['id'], $_POST['name']);
             }
         } catch (Exception $e) {
             die($e);
@@ -27,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$categories = $db->query("SELECT * FROM category");
+$categories = $app->GetCategoriesPaginated($page, 5);
 ?>
 <!DOCTYPE html>
 <html>
@@ -77,8 +78,8 @@ $categories = $db->query("SELECT * FROM category");
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if ($categories != null && $categories->num_rows > 0) {
-                        foreach ($categories as $cat) { ?>
+                    <?php if ($categories != null) {
+                        foreach ($categories['categories'] as $cat) { ?>
                             <tr>
                                 <td><?php echo $cat["id"] ?></td>
                                 <td><?php echo $cat["name"] ?></td>
@@ -86,7 +87,7 @@ $categories = $db->query("SELECT * FROM category");
                                     <button class="tooltip" data-tooltip="Modifica Categoria" onclick="openForm(<?php echo $cat['id'] ?>,'<?php echo $cat['name'] ?>')">
                                         <i class="fas fa-pencil fa-2x"></i>
                                     </button>
-                                    <form action="categories.php?action=delete" method="post">
+                                    <form action="categories.php?action=delete&page=<?php echo $page ?>" method="post">
                                         <input type="hidden" name="id" value="<?php echo $cat['id'] ?>">
                                         <button type="submit" class="tooltip" data-tooltip="Elimina Categoria">
                                             <i class="fas fa-trash fa-2x"></i>
@@ -111,6 +112,23 @@ $categories = $db->query("SELECT * FROM category");
                     </tr>
                 </tfoot>
             </table>
+            <?php if ($categories["totalPages"] > 1) { ?>
+                <div class="pagination">
+                    <ul>
+                        <?php if (intval($categories["page"]) > 1) { ?>
+                            <li><a href="/esercitazioneJS-DB/categories.php?page=<?php echo (intval($categories["page"]) - 1) ?>"><i class="fa-solid fa-backward"></i></a></li>
+                        <?php }
+                        for ($i = 1; $i <= intval($categories["totalPages"]); $i++) { ?>
+                            <li class="<?php if ($page == $i) {
+                                            echo 'active';
+                                        } ?>"><a href="/esercitazioneJS-DB/categories.php?page=<?php echo $i ?>"><?php echo $i ?></a></li>
+                        <?php } ?>
+                        <?php if (intval($categories["page"]) < intval($categories["totalPages"])) { ?>
+                            <li><a href="/esercitazioneJS-DB/categories.php?page=<?php echo (intval($categories["page"]) + 1) ?>"><i class="fa-solid fa-forward"></i></a></li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            <?php } ?>
         </div>
     </section>
 

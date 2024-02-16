@@ -1,6 +1,11 @@
 <?php
 require 'app.php';
 
+$page = 1;
+if (isset($_GET["page"])) {
+    $page =  $_GET["page"];
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = "";
 
@@ -11,17 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($action)) {
         try {
             if ($action == "add") {
-                $email = $_POST['email'];
-                $pass = $_POST['pass'];
-                $db->query("INSERT INTO users (email,pass) VALUES ('$email','$pass')");
+                $app->AddUsers($_POST['email'], $_POST['pass']);
             } else if ($action == "delete") {
-                $userId = $_POST['id'];
-                $db->query("DELETE FROM users WHERE id = $userId");
+                $app->DeleteUsers($_POST['id']);
             } else if ($action == "edit") {
-                $userId = $_POST['id'];
-                $email = $_POST['email'];
-                $pass = $_POST['pass'];
-                $db->query("UPDATE users SET email = '$email' , pass='$pass' WHERE id = $userId");
+                $app->UpdateUsers($_POST['id'], $_POST['email'], $_POST['pass']);
             }
         } catch (Exception $e) {
             die($e);
@@ -29,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$users = $db->query("SELECT * FROM users");
+$users = $app->GetUsersPaginated($page, 1);
 ?>
 <!DOCTYPE html>
 <html>
@@ -79,8 +78,8 @@ $users = $db->query("SELECT * FROM users");
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if ($users != null && $users->num_rows > 0) {
-                        foreach ($users as $us) { ?>
+                    <?php if ($users != null) {
+                        foreach ($users['users'] as $us) { ?>
                             <tr>
                                 <td><?php echo $us["id"] ?></td>
                                 <td><?php echo $us["email"] ?></td>
@@ -88,7 +87,7 @@ $users = $db->query("SELECT * FROM users");
                                     <button class="tooltip" data-tooltip="Modifica Utente" onclick="openForm(<?php echo $us['id'] ?>,'<?php echo $us['email'] ?>','<?php echo $us['pass'] ?>')">
                                         <i class="fas fa-pencil fa-2x"></i>
                                     </button>
-                                    <form action="users.php?action=delete" method="post">
+                                    <form action="users.php?action=delete&page=<?php echo $page ?>" method="post">
                                         <input type="hidden" name="id" value="<?php echo $us['id'] ?>">
                                         <button type="submit" class="tooltip" data-tooltip="Elimina Utente">
                                             <i class="fas fa-trash fa-2x"></i>
@@ -113,6 +112,23 @@ $users = $db->query("SELECT * FROM users");
                     </tr>
                 </tfoot>
             </table>
+            <?php if ($users["totalPages"] > 1) { ?>
+                <div class="pagination">
+                    <ul>
+                        <?php if (intval($users["page"]) > 1) { ?>
+                            <li><a href="/esercitazioneJS-DB/users.php?page=<?php echo (intval($users["page"]) - 1) ?>"><i class="fa-solid fa-backward"></i></a></li>
+                        <?php }
+                        for ($i = 1; $i <= intval($users["totalPages"]); $i++) { ?>
+                            <li class="<?php if ($page == $i) {
+                                            echo 'active';
+                                        } ?>"><a href="/esercitazioneJS-DB/users.php?page=<?php echo $i ?>"><?php echo $i ?></a></li>
+                        <?php } ?>
+                        <?php if (intval($users["page"]) < intval($users["totalPages"])) { ?>
+                            <li><a href="/esercitazioneJS-DB/users.php?page=<?php echo (intval($users["page"]) + 1) ?>"><i class="fa-solid fa-forward"></i></a></li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            <?php } ?>
         </div>
     </section>
 

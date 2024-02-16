@@ -26,7 +26,7 @@ if (isset($_GET["result"])) {
     }
 }
 
-$projects = $db->query("SELECT p.*,c.name AS category FROM projects AS p INNER JOIN category AS c ON p.categoryId=c.id");
+$projects = $app->db->query("SELECT p.*,c.name AS category FROM projects AS p INNER JOIN category AS c ON p.categoryId=c.id");
 ?>
 <!DOCTYPE html>
 <html>
