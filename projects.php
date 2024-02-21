@@ -32,7 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $projects = $app->GetProjectsPaginated($page, 5);
-
 $categories = $app->GetCategories();
 ?>
 <!DOCTYPE html>

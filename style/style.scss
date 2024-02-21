@@ -301,6 +301,16 @@ footer {
         justify-content: center;
         flex-direction: column;
         height: 100%;
+        background: #CCC;
+
+        h1{
+            display: flex;
+            align-items: center;
+
+            img{
+                width: 50px;
+            }
+        }
 
         form {
             width: 40%;
@@ -536,5 +546,24 @@ button:hover {
 
     li.active {
         border: 1px solid blue;
+    }
+}
+
+.login-box{
+    width: 30%;
+  height: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF;
+  border: 1px solid black;
+  border-radius: 25px;
+
+    .input{
+        margin-bottom: 12px;
+
+        input{
+            font-size:2em;
+        }
     }
 }

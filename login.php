@@ -46,38 +46,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <img class="logo" src="img/logo.png" alt="aezma">
                 </a>
             </div>
-            <ul class="navbar">
+            <!-- <ul class="navbar">
                 <li><a href="index.php#top">Home</a></li>
                 <li><a href="index.php#about">Chi Siamo</a></li>
                 <li><a href="index.php#portfolio">Portfolio</a></li>
                 <li><a href="index.php#contact">Contatti</a></li>
                 <li><a href="#">Area Riservata</a></li>
-            </ul>
+            </ul> -->
         </nav>
     </header>
 
     <section id="login">
         <div class="wrapper">
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <div class="input">
-                    <?php if (!empty($alert)) { ?>
-                        <div class="alert">
-                            <?php echo $alert ?>
-                        </div>
-                    <?php } ?>
-                </div>
-                <div class="input">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email">
-                </div>
-                <div class="input">
-                    <label for="pass">Password</label>
-                    <input type="password" id="pass" name="pass">
-                </div>
-                <div class="input">
-                    <button type="submit">ACCEDI</button>
-                </div>
-            </form>
+            <h1><img class="logo" src="img/logo.png" alt="aezma"> AEZMA</h1>
+            <div class="login-box">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                    <div class="input">
+                        <?php if (!empty($alert)) { ?>
+                            <div class="alert">
+                                <?php echo $alert ?>
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <div class="input">
+                        <input type="email" id="email" name="email" placeholder="Email">
+                    </div>
+                    <div class="input">
+                        <input type="password" id="pass" name="pass" placeholder="Email">
+                    </div>
+                    <div class="input">
+                        <button type="submit">ACCEDI</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </section>
 

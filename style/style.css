@@ -258,6 +258,14 @@ footer ul li {
     justify-content: center;
     flex-direction: column;
     height: 100%;
+    background: #CCC;
+}
+#login .wrapper h1 {
+    display: flex;
+    align-items: center;
+}
+#login .wrapper h1 img {
+    width: 50px;
 }
 #login .wrapper form {
     width: 40%;
@@ -472,4 +480,21 @@ button:hover {
 }
 .pagination li.active {
     border: 1px solid blue;
+}
+
+.login-box {
+    width: 30%;
+    height: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFF;
+    border: 1px solid black;
+    border-radius: 25px;
+}
+.login-box .input {
+    margin-bottom: 12px;
+}
+.login-box .input input {
+    font-size: 2em;
 }
