@@ -303,11 +303,11 @@ footer {
         height: 100%;
         background: #CCC;
 
-        h1{
+        h1 {
             display: flex;
             align-items: center;
 
-            img{
+            img {
                 width: 50px;
             }
         }
@@ -339,6 +339,10 @@ footer {
         align-items: center;
         flex-direction: column;
         height: 100%;
+
+        h2 {
+            font-size: 2.6em;
+        }
 
         #controls {
             width: 90%;
@@ -378,6 +382,12 @@ table {
         form {
             display: inline;
         }
+    }
+
+    thead,
+    tfoot {
+        background: #000;
+        color: #edb500;
     }
 
     td:nth-child(1),
@@ -491,7 +501,7 @@ button:hover {
 
 #dashboard {
     position: relative;
-    height: calc(100vh - 58px);
+    height: calc(100vh - 133px);
 
     margin-top: 58px;
 
@@ -504,6 +514,10 @@ button:hover {
         align-items: center;
         justify-content: center;
         flex-direction: column;
+
+        h2 {
+            font-size: 2.6em;
+        }
     }
 
 
@@ -515,10 +529,10 @@ button:hover {
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    margin-top: 5%;
+
 
     .stat {
-        border: 1px solid black;
+        border: 3px solid black;
         border-radius: 10px;
         display: flex;
         flex-direction: column;
@@ -549,21 +563,21 @@ button:hover {
     }
 }
 
-.login-box{
+.login-box {
     width: 30%;
-  height: 40%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #FFF;
-  border: 1px solid black;
-  border-radius: 25px;
+    height: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFF;
+    border: 1px solid black;
+    border-radius: 25px;
 
-    .input{
+    .input {
         margin-bottom: 12px;
 
-        input{
-            font-size:2em;
+        input {
+            font-size: 2em;
         }
     }
 }

@@ -62,14 +62,17 @@ foreach ($users as $p) {
             <h2>BENVENUTO</h2>
             <div class="square">
                 <div class="stat">
+                    <i class="fa-solid fa-list-ul fa-4x"></i>
                     <h4>Progetti: <strong><?php echo $stat['prog'] ?></strong> </h4>
                     <a href="projects.php">Gestisci</a>
                 </div>
                 <div class="stat">
+                    <i class="fa-solid fa-tags fa-4x"></i>
                     <h4>Categorie: <strong><?php echo $stat['cat'] ?></strong> </h4>
                     <a href="categories.php">Gestisci</a>
                 </div>
                 <div class="stat">
+                    <i class="fa-solid fa-users fa-4x"></i>
                     <h4>Utenti: <strong><?php echo $stat['users'] ?></strong> </h4>
                     <a href="users.php">Gestisci</a>
                 </div>

@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="email" id="email" name="email" placeholder="Email">
                     </div>
                     <div class="input">
-                        <input type="password" id="pass" name="pass" placeholder="Email">
+                        <input type="password" id="pass" name="pass" placeholder="Password">
                     </div>
                     <div class="input">
                         <button type="submit">ACCEDI</button>
