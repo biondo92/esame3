@@ -27,6 +27,7 @@ if (isset($_GET["result"])) {
 }
 
 $projects = $app->db->query("SELECT p.*,c.name AS category FROM projects AS p INNER JOIN category AS c ON p.categoryId=c.id");
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -105,31 +106,32 @@ $projects = $app->db->query("SELECT p.*,c.name AS category FROM projects AS p IN
             </div>
         </div>
     </section>
-
-    <section id="portfolio">
-        <div class="wrapper">
-            <h1>I Nostri Lavori</h1>
-            <?php
-            $controllo = 0;
-            ?>
-            <?php foreach ($projects as $proj) { ?>
-                <?php if ($controllo == 0) { ?>
-                    <div class="portfolio-row">
-                    <?php }
-                $controllo++;
-                    ?>
-                    <div class="portfolio-item" onclick='openModal(<?php echo json_encode($proj) ?>)'>
-                        <img src="<?php echo $proj['image'] ?>" alt="<?php echo $proj['name'] ?>" />
-                        <div class="project-title"><?php echo $proj['name'] ?></div>
-                    </div>
-                    <?php if ($controllo == 4) {
-                        $controllo = 0;
-                    ?>
-                    </div>
+    <?php if ($projects != null && $projects->num_rows > 0) { ?>
+        <section id="portfolio">
+            <div class="wrapper">
+                <h1>I Nostri Lavori</h1>
+                <?php
+                $controllo = 0;
+                ?>
+                <?php foreach ($projects as $proj) { ?>
+                    <?php if ($controllo == 0) { ?>
+                        <div class="portfolio-row">
+                        <?php }
+                    $controllo++;
+                        ?>
+                        <div class="portfolio-item" onclick='openModal(<?php echo json_encode($proj) ?>)'>
+                            <img src="<?php echo $proj['image'] ?>" alt="<?php echo $proj['name'] ?>" />
+                            <div class="project-title"><?php echo $proj['name'] ?></div>
+                        </div>
+                        <?php if ($controllo == 4) {
+                            $controllo = 0;
+                        ?>
+                        </div>
+                    <?php } ?>
                 <?php } ?>
-            <?php } ?>
-        </div>
-    </section>
+            </div>
+        </section>
+    <?php } ?>
 
     <section id="contact">
         <div class="wrapper">
